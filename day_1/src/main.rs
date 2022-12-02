@@ -15,24 +15,35 @@ fn main() {
     println!("In file {}", file_path);
 
     if let Ok(lines) = read_lines(file_path) {
-        let mut most_calories = 0;
+        let mut elf_calories: Vec<i32> = [].to_vec();
         let mut calories = 0;
         for line in lines {
             if let Ok(ln) = line {
                 if ln == "" {
                     println!("{}", calories);
-                    if calories > most_calories {
-                        most_calories = calories;
-                    }
+                    elf_calories.push(calories);
                     calories = 0;
                 } else {
                     let cals: i32 = ln.parse().unwrap();
                     calories = calories + cals;
                 }
             }
+        
         }
+        elf_calories.push(calories);
 
-        println!("elf with the most calories has {} many calories", most_calories);
+        elf_calories.sort();
+        elf_calories.reverse();
+        println!("the top three elves have calories: \n{}\n{}\n{}",
+            elf_calories[0],
+            elf_calories[1],
+            elf_calories[2]
+        );
+
+        let tot_cals: i32 =  [elf_calories[0], elf_calories[1], elf_calories[2]].iter().sum();
+        println!("total calories of the three elves with the most calories: {}",
+            tot_cals
+        )
     }
 }
 
